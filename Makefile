@@ -12,7 +12,7 @@ CFLAGS  = -D _DEBUG -ggdb3 -std=c++17 -O0 -w -Wall -Wextra -Weffc++ -Waggressive
 -fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,undefined,unreachable,vla-bound,vptr
 
 
-SOURCES=src/hash.cpp src/main.cpp
+SOURCES=src/hash.cpp LinkedList/list.cpp src/hashTable.cpp src/main.cpp
 
 EXECUTABLE=test
 
@@ -27,7 +27,7 @@ erase:
 	clear
 
 compile:
-	@${CC} -g -o $(EXECUTABLE) -O3 -mavx2 $(SOURCES)
+	@${CC} -g -o $(EXECUTABLE) $(CFLAGS) -O3 -mavx2 $(SOURCES)
 
 run:
 	@./${EXECUTABLE}

@@ -1,8 +1,9 @@
+#define MAKE_CHECKS 0
 #include "hash.h"
 
 int main() {
-    // float value = -1.22;
-    printf("%u", crcHash("Test string"));
+    // char *value = "Test2";
+    // printf("%u", lenHash(value));
 
     return 0;
 }
