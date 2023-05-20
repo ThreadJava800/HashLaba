@@ -1,58 +1,52 @@
 #include "hash.h"
 
 // INT HASHES
-int modHashi(void *value) {
+size_t modHashi(int value) {
     if (!value) return 0;
 
-    int *intPtr = (int*) value;
-
-    return (*intPtr) % MOD_CONST;
+    return value % MOD_CONST;
 }
 
-unsigned bitHashi(void *value) {
+size_t bitHashi(int value) {
     if (!value) return 0;
 
-    int *intPtr = (int*) value;
-
-    unsigned result = 0;
-    unsigned mulInd = 1;
+    size_t result = 0;
+    size_t mulInd = 1;
 
     for (int i = 0; i < 10; i++) {
-        result += (*(intPtr) & 0x01) * mulInd;
+        result += (value & 0x01) * mulInd;
         mulInd *= 10;
 
-        (*intPtr) >>= 1;
+        value >>= 1;
     }
     
     return result;
 }
 
-int mulHashi(void *value) {
+size_t mulHashi(int value) {
     if (!value) return 0;
 
-    int *intPtr = (int*) value;
-
     float realPart = 0;
-    float fracPart = modf((*intPtr) * A, &realPart);
+    float fracPart = modf(value * A, &realPart);
+
+    // printf("%lu\n", floor(N * fracPart));
 
     return floor(N * fracPart);
 }
 
 // FLOAT HASHES
-int intHashf(void *value) {
-    float *fPtr = (float*) value;
-
-    return (int) (*fPtr);
+size_t intHashf(float value) {
+    return (size_t) (value);
 }
 
-unsigned bitHashf(void *value) {
+size_t bitHashf(float value) {
     int *bitValue = reinterpret_cast<int *>(&value);
 
-    return bitHashi(bitValue);
+    return bitHashi(*bitValue);
 }
 
 // STRING HASHES
-unsigned int lenHash(void *value) {
+size_t lenHash(char *value) {
     if (!value) return 0;
 
     const char *sPtr = (const char *) value;
@@ -60,12 +54,12 @@ unsigned int lenHash(void *value) {
     return strlen(sPtr);
 }
 
-unsigned int sumHash(void *value) {
+size_t sumHash(char *value) {
     if (!value) return 0;
 
     const char *sPtr = (const char *) value;
 
-    int sum = 0;
+    size_t sum = 0;
 
     while (*sPtr != '\0') {
         sum += (*sPtr);
@@ -75,7 +69,7 @@ unsigned int sumHash(void *value) {
     return sum;
 }
 
-unsigned int polHash(void *value) {
+size_t polHash(char *value) {
     if (!value) return 0;
 
     const char *sPtr = (const char *) value;
@@ -86,14 +80,14 @@ unsigned int polHash(void *value) {
     size_t valueLen = strlen(sPtr);
 
     for (size_t i = 0; i < valueLen; i++) {
-        hash = (hash + ((unsigned int) sPtr[valueLen - i - 1] * p) % HASH_MOD) % HASH_MOD;
+        hash = (hash + ((size_t) sPtr[valueLen - i - 1] * p) % HASH_MOD) % HASH_MOD;
         p    = (p * POLYNOMIAL_P) % HASH_MOD;
     }
     
     return hash;
 }
 
-unsigned int crcHash(void *value) {
+size_t crcHash(char *value) {
     if (!value) return 0;
 
     const char *sPtr = (const char *) value;

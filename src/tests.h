@@ -7,11 +7,8 @@
 
 static const int TEST_COUNT = 1e6;
 
-int   *createRandomIntArr  (const int testCount);
-float *createRandomFloatArr(const int testCount);
-char  *createRandomCharArr (const int testCount);
-
-void countDeviation         (HashMap_t *hashMapArr[]);
-void measureHashDistribution();
+void countDeviation(HashMap_t *hashMapArr[], size_t arrSize);
+HashMap_t *createHashMapRandData(const int testCount, HashFunc_t hashFunc);
+void measureHashDistribution(HashFunc_t funcs[], size_t arrSize);
 
 #endif

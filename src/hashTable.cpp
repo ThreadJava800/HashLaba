@@ -1,36 +1,29 @@
 #include "hash.h"
 
-HashMap_t *hashMapNew(HashFunc_t hashFunc, CompareFunc_t compFunc, 
-                      CopyFunc_t copyFunc, FreeFunc_t    freeFunc) {
+HashMap_t *hashMapNew(HashFunc_t hashFunc) {
     ON_ERROR(!hashFunc, "Nullptr", nullptr);
 
     HashMap_t *hashMap = (HashMap_t*) calloc(1, sizeof(HashMap_t));
     ON_ERROR(!hashMap, "Unable to alloc memory", nullptr);
 
-    hashMapCtor(hashMap, hashFunc, compFunc, copyFunc, freeFunc);
+    hashMapCtor(hashMap, hashFunc);
 
     return hashMap;
 }
 
-void hashMapCtor(HashMap_t *hashMap, HashFunc_t hashFunc, CompareFunc_t compFunc, 
-                                     CopyFunc_t copyFunc, FreeFunc_t    freeFunc) {
-
-    ON_ERROR(!hashFunc || !hashMap || !compFunc || !copyFunc || !freeFunc, "Nullptr",);
+void hashMapCtor(HashMap_t *hashMap, HashFunc_t hashFunc) {
+    ON_ERROR(!hashFunc || !hashMap, "Nullptr",);
 
     List_t *listArr = (List_t *) calloc(DEFAULT_ARR_SIZE, sizeof(List_t));
     ON_ERROR(!listArr, "Unable to alloc memory", );
 
     for (size_t i = 0; i < DEFAULT_ARR_SIZE; i++) {
-        _listCtor(&listArr[i], 1, 0);
+        _listCtor(&listArr[i], 10, 0);
     }
 
     hashMap->listArr  = listArr;
+    hashMap->hashFunc = hashFunc;
     hashMap->listCnt  = DEFAULT_ARR_SIZE;  
-
-    hashMap->hashFunc    = hashFunc;
-    hashMap->compareFunc = compFunc;
-    hashMap->copyFunc    = copyFunc;
-    hashMap->freeFunc    = freeFunc;
 }
 
 void hashMapDelete(HashMap_t *hashMap) {
@@ -47,10 +40,10 @@ void hashMapDtor(HashMap_t *hashMap) {
     for (size_t i = 0; i < hashMap->listCnt; i++) {
         List_t listToFree = hashMap->listArr[i];
 
-        for (size_t j = 0; j < listToFree.size + 1; j++) {
-            free((char*) listToFree.values[j].value.key);
-            free((char*) listToFree.values[j].value.value);
-        }
+        // for (size_t j = 0; j < listToFree.size + 1; j++) {
+        //     free((char*) listToFree.values[j].value.key);
+        //     free((char*) listToFree.values[j].value.value);
+        // }
 
         listDtor(&listToFree);
     }
@@ -58,19 +51,23 @@ void hashMapDtor(HashMap_t *hashMap) {
     free(hashMap->listArr);
 }
 
-void hashMapInsert(HashMap_t *hashMap, void *key, void *value) {
+void hashMapInsert(HashMap_t *hashMap, char* key, char* value) {
     ON_ERROR(!hashMap || !key || !value, "Nullptr",);
 
     size_t hashSum = hashMap->hashFunc(key) % hashMap->listCnt;
-    
+
     Pair_t addPair = {
-        .key       = hashMap->copyFunc(key),
-        .value     = hashMap->copyFunc(value)
+        .key       = strdup(key),
+        .value     = strdup(value)
     };
     listPushBack(&(hashMap->listArr[hashSum]), addPair);
 }
 
-void *hashMapSearch(HashMap_t *hashMap, void *key) {
+bool comparator(Elem_t *val1, Elem_t *val2) {
+    return !strcmp(val1->key, val2->key);
+}
+
+char* hashMapSearch(HashMap_t *hashMap, char* key) {
     ON_ERROR(!hashMap || !(hashMap->listArr) || !key, "Nullptr", nullptr);
 
     size_t  hashSum    = hashMap->hashFunc(key) % hashMap->listCnt;
@@ -80,5 +77,8 @@ void *hashMapSearch(HashMap_t *hashMap, void *key) {
         .key = key,
     };
 
-    return listFind(&searchList, &compareElement, hashMap->compareFunc)->value.value;
+    ListElement_t *found = listFind(&searchList, &compareElement, comparator);
+
+    if (found) return found->value.value;
+    return nullptr;
 }
