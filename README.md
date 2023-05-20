@@ -5,17 +5,17 @@
 Для теста было взято 3 хеш-функции: 1-ая берет число по некоторому модулю (в моем случае - 1000), 2-ая возвращает битовое представление числа в unsigned, 3-я - мультипликативная.
 
 Ниже представлено сравнение равномерности распределения для этих функций:
-![BIT](https://github.com/ThreadJava800/HashResearch/blob/main/graphics/intBit.png)\
-![MUL](https://github.com/ThreadJava800/HashResearch/blob/main/graphics/intMul.png)\
-![MOD](https://github.com/ThreadJava800/HashResearch/blob/main/graphics/intMod.png)
+![BIT](https://github.com/ThreadJava800/HashResearch/tree/main/graphics/intBit.png)\
+![MUL](https://github.com/ThreadJava800/HashResearch/tree/main/graphics/intMul.png)\
+![MOD](https://github.com/ThreadJava800/HashResearch/tree/main/graphics/intMod.png)
 
 Из графиков видно, что хеш, берущий число по модулю оказался наилучшим из рассмотренных.
 ### FLOAT
 Для float-чисел были взяты 2 хеш-функции: первая просто переводит число в int, вторая представляет число побитово, как и в int случае.
 
 Сравнение хеш-функций:
-![BIT](https://github.com/ThreadJava800/HashResearch/blob/main/graphics/floatBit.png)\
-![INT](https://github.com/ThreadJava800/HashResearch/blob/main/graphics/floatInt.png)
+![BIT](https://github.com/ThreadJava800/HashResearch/tree/main/graphics/floatBit.png)\
+![INT](https://github.com/ThreadJava800/HashResearch/tree/main/graphics/floatInt.png)
 
 Легко видеть, что хеш, переводящий число в int показывает себя лучше, чем побитовое представление.
 ### Строки
@@ -26,12 +26,12 @@
 4. CRC32
 
 Отдельно рассмотрим 1-ый хеш:\
-![LEN](https://github.com/ThreadJava800/HashResearch/blob/main/graphics/charLen.png)
+![LEN](https://github.com/ThreadJava800/HashResearch/tree/main/graphics/charLen.png)
 
 Как видим, в силу того, что длины слов редко превышают 10 символов, то хеш-функция не является равномерной.
 
 Сравним оставшиеся три функции:\
-![3f](https://github.com/ThreadJava800/HashResearch/blob/main/graphics/charHash.png)
+![3f](https://github.com/ThreadJava800/HashResearch/tree/main/graphics/charHash.png)
 
 Посчитав среднеквадратичное отклонение, получим, что функции в среднем схожи, однако полиномиальный хеш немного выигрывает:
 | Функция | Отклонение |
