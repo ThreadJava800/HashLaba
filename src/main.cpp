@@ -29,7 +29,7 @@ void intFreeFunc(void *value) {
 int main() {
     time((unsigned) NULL);
 
-    measureHashMapTime(crcHash);
+    measureHashMapTime2(crcHash);
 
     // HashMap_t *hashMap = hashMapNew(crcHash);
 

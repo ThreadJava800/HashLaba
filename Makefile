@@ -14,7 +14,7 @@ CFLAGS  = -D _DEBUG -ggdb3 -std=c++17 -O0 -w -Wall -Wextra -Weffc++ -Waggressive
 
 SOURCES=src/hash.cpp LinkedList/list.cpp src/hashTable.cpp src/tests.cpp src/main.cpp
 
-EXECUTABLE=test
+EXECUTABLE=test3
 
 SFML_EXEC= -lsfml-graphics -lsfml-window -lsfml-system
  

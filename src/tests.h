@@ -11,6 +11,7 @@ void countDeviation(HashMap_t *hashMapArr[], size_t arrSize);
 HashMap_t *createHashMapRandData(const int testCount, HashFunc_t hashFunc);
 void measureHashDistribution(HashFunc_t funcs[], size_t arrSize);
 
-void measureHashMapTime(HashFunc_t hashFunc);
+void measureHashMapTime (HashFunc_t hashFunc);
+void measureHashMapTime2(HashFunc_t hashFunc);
 
 #endif

@@ -94,9 +94,10 @@ void measureHashMapTime(HashFunc_t hashFunc) {
 
     auto start = std::chrono::high_resolution_clock::now(); 
 
+    double tempTime = 0;
 
     for (int i = 10000; i <= 1000000; i += 10000) {
-        fprintf(stderr, "%d\n", i);
+        fprintf(stderr, "%d %lld\n", i, tempTime);
         for (int j = 0; j < i; j++) {
             int oper = rand() % 3;
             int index = rand() % 1000000;
@@ -110,6 +111,61 @@ void measureHashMapTime(HashFunc_t hashFunc) {
                 hashMapSearch(hashMap, randArr[index]);
             }
         }
+
+        auto end   = std::chrono::high_resolution_clock::now(); 
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+        tempTime += duration.count();
+    }
+
+    auto end   = std::chrono::high_resolution_clock::now(); 
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    printf("%lld\n", duration.count());
+}
+
+void measureHashMapTime2(HashFunc_t hashFunc) {
+    ON_ERROR(!hashFunc, "Nullptr", );
+
+    HashMap_t *hashMap = hashMapNew(hashFunc);
+
+    char *randArr[1000000] = {};
+    for (int i = 0; i < 1000000; i++) {
+        int wordLen = rand() % 100;
+        char *word = (char*) calloc(wordLen+1, sizeof(char));
+
+        for (int j = 0; j < wordLen; j++) {
+            word[j] = rand() % CHAR_MAX;
+        }
+        word[wordLen] = '\0';
+
+        randArr[i] = word;
+    }
+
+    auto start = std::chrono::high_resolution_clock::now(); 
+
+    double tempTime = 0;
+
+    for (int i = 10000; i <= 1000000; i += 10000) {
+        fprintf(stderr, "%d %lld\n", i, tempTime);
+        for (int j = 0; j < i; j += 4) {
+            int index = rand() % 1000000;
+            hashMapInsert(hashMap, randArr[index], randArr[index]);
+
+            index = rand() % 1000000;
+            hashMapInsert(hashMap, randArr[index], randArr[index]);
+
+            index = rand() % 1000000;
+            hashMapSearch(hashMap, randArr[index]);
+
+            index = rand() % 1000000;
+            hashMapDelete(hashMap, randArr[index]);
+        }
+
+        auto end   = std::chrono::high_resolution_clock::now(); 
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+        tempTime += duration.count();
     }
 
     auto end   = std::chrono::high_resolution_clock::now(); 
