@@ -9,7 +9,7 @@ CFLAGS  = -D _DEBUG -ggdb3 -std=c++17 -O0 -w -Wall -Wextra -Weffc++ -Waggressive
 -Wuseless-cast -Wvariadic-macros -Wno-literal-suffix -Wno-missing-field-initializers -Wno-narrowing -Wno-old-style-cast \
 -Wno-varargs -Wstack-protector -fcheck-new -fsized-deallocation -fstack-protector -fstrict-overflow -flto-odr-type-merging \
 -fno-omit-frame-pointer -pie -fPIE -Werror=vla \
-# -fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,undefined,unreachable,vla-bound,vptr
+-fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,undefined,unreachable,vla-bound,vptr
 
 
 SOURCES=src/hash.cpp LinkedList/list.cpp src/hashTable.cpp src/tests.cpp src/main.cpp
@@ -27,7 +27,7 @@ erase:
 	clear
 
 compile:
-	@${CC} -g -o $(EXECUTABLE) $(CFLAGS) -O3 $(SOURCES)
+	@${CC} -g -o $(EXECUTABLE) $(CFLAGS) -O0 $(SOURCES)
 
 run:
 	@./${EXECUTABLE}

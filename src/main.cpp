@@ -1,4 +1,5 @@
 #include <time.h>
+#include <chrono>
 
 #define MAKE_CHECKS 0
 #include "hash.h"
@@ -28,14 +29,32 @@ void intFreeFunc(void *value) {
 int main() {
     time((unsigned) NULL);
 
-    HashFunc_t hashFuncs[4] = {
-        lenHash,
-        sumHash,
-        polHash,
-        crcHash
-    };
+    measureHashMapTime(crcHash);
 
-    measureHashDistribution(hashFuncs, 4);
+    // HashMap_t *hashMap = hashMapNew(crcHash);
+
+    // auto start = std::chrono::high_resolution_clock::now(); 
+    // for (int i = 0; i < 10000; i++) {
+    //     hashMapInsert(hashMap, "test", "Test");
+    // }
+    // auto end   = std::chrono::high_resolution_clock::now(); 
+    // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    // printf("%lld\n", duration.count());
+
+    // HashMap_t *hashMap = hashMapNew(crcHash);
+
+
+
+
+    // HashFunc_t hashFuncs[4] = {
+    //     lenHash,
+    //     sumHash,
+    //     polHash,
+    //     crcHash
+    // };
+
+    // measureHashDistribution(hashFuncs, 4);
 
     // hashMapDelete(hashMap);
 

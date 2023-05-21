@@ -64,7 +64,22 @@ void hashMapInsert(HashMap_t *hashMap, char* key, char* value) {
 }
 
 bool comparator(Elem_t *val1, Elem_t *val2) {
+    if (!val1->key || !val2->key) return false;
     return !strcmp(val1->key, val2->key);
+}
+
+void hashMapDelete(struct HashMap_t *hashMap, char* key) {
+    ON_ERROR(!hashMap, "Nullptr", );
+
+    int hashSum = hashMap->hashFunc(key) % hashMap->listCnt;
+
+    Pair_t cmpElem = {
+        .key = key
+    };
+
+    listDelete(&(hashMap->listArr[hashSum]), &cmpElem, comparator);
+
+    // listDump(&(hashMap->listArr[hashSum]));
 }
 
 char* hashMapSearch(HashMap_t *hashMap, char* key) {

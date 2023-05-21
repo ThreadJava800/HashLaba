@@ -21,8 +21,6 @@
 #define ON_ERROR(expr, errStr, retVal) {}
 #endif
 
-static int testArr[1000] = {0};
-
 //==========CONSTANT SECTION==========
 static const size_t POISON_HASH           = 0xDEADBEEF;
 static const size_t DEFAULT_GNU_HASH      = 0xDED;
@@ -38,13 +36,20 @@ struct HashMap_t {
 
     HashFunc_t hashFunc = nullptr;
 };
+
+// struct HashMap_t {
+//     char *arr[SEARCH_TEST_CNT] = {nullptr};
+
+//     HashFunc_t hashFunc = nullptr;
+// };
 //=========HASHMAP FUNCS=======
 HashMap_t  *hashMapNew   (HashFunc_t hashFunc);
 void        hashMapCtor  (HashMap_t *hashMap, HashFunc_t hashFunc);
 void        hashMapDelete(HashMap_t *hashMap);
 void        hashMapDtor  (HashMap_t *hashMap);
 
-void        hashMapInsert(HashMap_t *hashMap, char* key, char* value);
+void  hashMapInsert(HashMap_t *hashMap, char* key, char* value);
+void  hashMapDelete(HashMap_t *hashMap, char* key);
 char* hashMapSearch(HashMap_t *hashMap, char* key);
 
 //=========INT HASHES=======

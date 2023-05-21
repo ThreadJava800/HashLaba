@@ -90,19 +90,17 @@ size_t polHash(char *value) {
 size_t crcHash(char *value) {
     if (!value) return 0;
 
-    const char *sPtr = (const char *) value;
-
     int hash = 0xFFFFFFFF, mask = 0;
 
-    while (*sPtr != '\0') {
-        hash = hash ^ (*sPtr);
+    while (*value != '\0') {
+        hash = hash ^ (*value);
 
         for (int j = 7; j >= 0; j--) {
             mask = -(hash & 1);
             hash = (hash >> 1) ^ (0xEDB88320UL & mask);
         }
 
-        sPtr++;
+        value++;
     }
 
     return ~hash;
